@@ -1,0 +1,27 @@
+{
+  "title": "FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F_5) in P^5",
+  "upload_type": "software",
+  "description": "Standalone Init-only Lean 4.22 formalization (`Hodge/VF5.lean`) defining the host arithmetic and degree/weight invariants of the smooth Fermat quintic fourfold V(F_5) subset P^5 with zero external Mathlib dependencies. Explicitly certified as a host definition and arithmetic invariant module (`Hodge/VF5.lean`) with Z uncomputed; not a proof or disproof of the Clay Hodge Conjecture. Copyright (c) 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.",
+  "creators": [
+    {
+      "name": "Frohman, Benjamin Stanley",
+      "orcid": "0009-0006-7068-3718"
+    }
+  ],
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "keywords": [
+    "Lean 4",
+    "Fermat quintic fourfold",
+    "Init-only verification",
+    "Projective hypersurfaces",
+    "Hodge host certificate"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/BenFrohman/FermatQuinticHost",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "titan-audit-v1.0",
+  "repository": "BenFrohman/FermatQuinticHost",
+  "doi": "10.5281/zenodo.23652990",
+  "author": "Benjamin Stanley Frohman",
+  "orcid": "0009-0006-7068-3718",
+  "license": "Apache-2.0",
+  "timestamp_cdt": "2026-10-25T19:10:00-05:00",
+  "lean_module_count": 1,
+  "sorry_count": 0,
+  "modules": [
+    {
+      "file": "Hodge/VF5.lean",
+      "sha256": "e69d4e4a737ddb28fd15e5d50f14e251b5337c9b30d74090b23bc466ec1d98aa",
+      "declarations": 21,
+      "sorry_tokens": 0
+    }
+  ],
+  "verdict": "PASS_ZERO_SORRY_HONEST_BOUNDARY",
+  "payload_sha256": "2aec76251275f8709fc6b887399a9f403644d4e6f2ac5ad99c46293fb3c1dd34",
+  "ed25519_key_fingerprint": "b428fb72676f1c52",
+  "ed25519_signature": "bd328500ef71e07d8662ce72c26bbf81ab620cbef4704dc76959e3801d3a2bea8579ff982933e5bc6af318eca4a0606080bdac60e0c31b934761846f162ea604"
+}

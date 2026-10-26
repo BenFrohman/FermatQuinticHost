@@ -1,0 +1,83 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+
+\title{\textbf{FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F\_5) in P\textasciicircum{}5}}
+\author{Benjamin Stanley Frohman\\
+\small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
+GitHub: \href{https://github.com/BenFrohman/FermatQuinticHost}{\texttt{BenFrohman/FermatQuinticHost}}\\
+\small Dedicated 1-to-1 Zenodo DOI: \href{https://doi.org/10.5281/zenodo.23652990}{\texttt{10.5281/zenodo.23652990}}}
+\date{Earliest Commit Provenance: 2026-10-03 04:45:56 PM CDT (UTC-5)\\
+Siloed Archival Edition: October 25, 2026 (America/Chicago CDT)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Standalone Init-only Lean 4.22 formalization (`Hodge/VF5.lean`) defining the host arithmetic and degree/weight invariants of the smooth Fermat quintic fourfold V(F\_5) subset P\textasciicircum{}5 with zero external Mathlib dependencies.
+\end{abstract}
+
+\section{Scope, Scientific Honesty, and Non-Claim Boundary}
+Explicitly certified as a host definition and arithmetic invariant module (`Hodge/VF5.lean`) with Z uncomputed; not a proof or disproof of the Clay Hodge Conjecture.
+
+\begin{itemize}
+  \item \textbf{Repository:} \texttt{https://github.com/BenFrohman/FermatQuinticHost}
+  \item \textbf{Dedicated 1-to-1 Zenodo DOI:} \texttt{10.5281/zenodo.23652990}
+  \item \textbf{Earliest Git Commit SHA:} \texttt{799c9815446e3e64d7f21701d0efdfdbed697ae5} (2026-10-03 04:45:56 PM CDT (UTC-5))
+  \item \textbf{License \& Copyright:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.
+\end{itemize}
+
+\section{Technical Overview \& Repository Specification}
+Copyright (c) 2026 Benjamin Stanley Frohman (`@BenFrohman`). Apache-2.0.
+
+The real host is the Fermat quintic fourfold
+
+```text
+
+F5 = x0\textasciicircum{}5 + x1\textasciicircum{}5 + x2\textasciicircum{}5 + x3\textasciicircum{}5 + x4\textasciicircum{}5 + x5\textasciicircum{}5
+
+V(F5) subset P\textasciicircum{}5
+
+```
+
+Certificate: [`Hodge/VF5.lean`](Hodge/VF5.lean) and [`CERTIFICATE.md`](CERTIFICATE.md).
+
+`Hodge/NewHost.lean` is a placeholder filename, not the host name.
+
+`hostLabel` is a string. `T\_F` is not used. `Z` on the sextic is uncomputed.
+
+Primitive `H\textasciicircum{}\{3,1\}` container dimension is 120, not 0.
+
+Toolchain: Lean `v4.22.0`, Init only.
+
+\section{Cryptographic Provenance \& File Inventory}
+Every source artifact in \texttt{BenFrohman/FermatQuinticHost} is audited via \texttt{titan-audit}
+(\texttt{audit/TITAN\_AUDIT\_CERTIFICATE.json}) and sealed under a deterministic SHA-256 Merkle tree via
+\texttt{sealguard} (\texttt{PROVENANCE\_MERKLE\_ROOT.json}) signed with Ed25519 key fingerprint
+\texttt{b428fb72676f1c52}.
+
+\begin{center}
+\small
+\begin{tabular}{p{0.52\textwidth}rr}
+\toprule
+\textbf{Repository Path} & \textbf{Size} & \textbf{SHA-256 Prefix} \\
+\midrule
+\texttt{CERTIFICATE.md} & 873 B & \texttt{6d0078b674735413...} \\
+\texttt{Hodge/VF5.lean} & 4476 B & \texttt{e69d4e4a737ddb28...} \\
+\texttt{LICENSE} & 11355 B & \texttt{9da72c2bee4f20ba...} \\
+\texttt{NOTICE} & 329 B & \texttt{b4790083f7f73b66...} \\
+\texttt{README.md} & 531 B & \texttt{e2706b1cc1d2a2fa...} \\
+\texttt{lean-toolchain} & 25 B & \texttt{8f6680f8389e8ade...} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+\noindent\rule{\textwidth}{0.4pt}\\
+\footnotesize
+\textbf{Attribution \& Licensing Notice:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman (ORCID: \texttt{0009-0006-7068-3718}).
+Licensed under the Apache License, Version 2.0.
+\end{document}

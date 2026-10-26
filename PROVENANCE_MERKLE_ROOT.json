@@ -1,0 +1,75 @@
+{
+  "schema": "sealguard-merkle-provenance-v1.0",
+  "repository": "BenFrohman/FermatQuinticHost",
+  "doi": "10.5281/zenodo.23652990",
+  "author": "Benjamin Stanley Frohman",
+  "orcid": "0009-0006-7068-3718",
+  "license": "Apache-2.0",
+  "timestamp_cdt": "2026-10-25T19:10:00-05:00",
+  "merkle_root_sha256": "82742eda09c97d563550c5b39a04d977180ed06f4db48975f2b045d57974bb52",
+  "ed25519_key_fingerprint": "b428fb72676f1c52",
+  "ed25519_signature": "bee740f51bf9485f06df40ed56baa736e421715a7de43988e36da857efcc6a27a1beafa9747d7e837be8ca745ec28b77fa0a2e59487a33c07163b476df853a05",
+  "leaf_count": 12,
+  "leaves": [
+    {
+      "path": ".zenodo.json",
+      "sha256": "2ab87ee3de790097b23e1fd8debd13211a8e31a5d8a1af422d0bf7039ce1e68e",
+      "bytes": 1142
+    },
+    {
+      "path": "AUTHORS.md",
+      "sha256": "1732529c9d516b14378c2ea60b7a29a9dd01385bb5f302efa163c42b3dceb130",
+      "bytes": 320
+    },
+    {
+      "path": "CERTIFICATE.md",
+      "sha256": "6d0078b674735413265ab94dbfede5f24cb533aec7beab88fa354731368268c5",
+      "bytes": 873
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "5420d36e20c8c5e9aaf1ed2d1e6c3408a188f1ed135bd71ecdda43e73c205389",
+      "bytes": 603
+    },
+    {
+      "path": "Hodge/VF5.lean",
+      "sha256": "e69d4e4a737ddb28fd15e5d50f14e251b5337c9b30d74090b23bc466ec1d98aa",
+      "bytes": 4476
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "ec43eec7417d548fb78a8dc50830f1d854b91a89c2daf0d4e957601515c15e87",
+      "bytes": 10773
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "b723dc955baa9e541fbf6b93990ec1bca2d3c8b84fa1cae30ecbdcb5ec992489",
+      "bytes": 596
+    },
+    {
+      "path": "README.md",
+      "sha256": "1a4d64033e792f709bf9b0ff944e534bed2f74b7e8e9d2c543eed2d05ab04688",
+      "bytes": 1637
+    },
+    {
+      "path": "audit/TITAN_AUDIT_CERTIFICATE.json",
+      "sha256": "b77b1f8ba80d433472bb0735dce9cac600da1c1f2d6b1a73f9eb8d013c2930b2",
+      "bytes": 852
+    },
+    {
+      "path": "lean-toolchain",
+      "sha256": "8f6680f8389e8adee06cb2bd44372c6d60dce0e8301630b61a99a5642d1bd71b",
+      "bytes": 25
+    },
+    {
+      "path": "paper/FermatQuinticHost_Technical_Monograph_2026.pdf",
+      "sha256": "d13421045470979fec3bbbb700f0b01a753645b6868f920d24652a23d4a7825d",
+      "bytes": 47254
+    },
+    {
+      "path": "paper/FermatQuinticHost_Technical_Monograph_2026.tex",
+      "sha256": "346f224c43494b6f782372f87a422afd706427846a9a637115c4e554db522c82",
+      "bytes": 3771
+    }
+  ]
+}

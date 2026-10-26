@@ -1,0 +1,13 @@
+{
+  "schema": "sealguard-manifest-v1.0",
+  "repository": "BenFrohman/FermatQuinticHost",
+  "doi": "10.5281/zenodo.23652990",
+  "author": "Benjamin Stanley Frohman",
+  "orcid": "0009-0006-7068-3718",
+  "license": "Apache-2.0",
+  "public_surface_policy": "VERIFIED_PUBLIC_SURFACE_ONLY",
+  "classified_ip_redaction": "ACTIVE_ZERO_LEAKAGE",
+  "merkle_root_sha256": "82742eda09c97d563550c5b39a04d977180ed06f4db48975f2b045d57974bb52",
+  "ed25519_key_fingerprint": "b428fb72676f1c52",
+  "ed25519_signature": "bee740f51bf9485f06df40ed56baa736e421715a7de43988e36da857efcc6a27a1beafa9747d7e837be8ca745ec28b77fa0a2e59487a33c07163b476df853a05"
+}
