@@ -1,83 +1,148 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt]{amsart}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{booktabs}
-\usepackage{hyperref}
-\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+\usepackage{longtable,booktabs,array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\lean}[1]{\path{#1}}
+\sloppy
 
-\title{\textbf{FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F\_5) in P\textasciicircum{}5}}
-\author{Benjamin Stanley Frohman\\
-\small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
-GitHub: \href{https://github.com/BenFrohman/FermatQuinticHost}{\texttt{BenFrohman/FermatQuinticHost}}\\
-\small Dedicated 1-to-1 Zenodo DOI: \href{https://doi.org/10.5281/zenodo.23652990}{\texttt{10.5281/zenodo.23652990}}}
-\date{Earliest Commit Provenance: 2026-10-03 04:45:56 PM CDT (UTC-5)\\
-Siloed Archival Edition: October 25, 2026 (America/Chicago CDT)}
-
+\title[Elementary certified facts for the Fermat quintic fourfold]{Elementary Certified Facts for the Fermat Quintic Fourfold $V(F_5)\subset\mathbb{P}^5$: the Euler Identity, an Euler Defect, and the Isolated Integer Critical Point of the Affine Cone}
+\author{Benjamin Stanley Frohman}
+\email{frohmanbenjamin@gmail.com}
+\date{November 4, 2026}
 \begin{document}
+\begin{abstract}
+We formalize in Lean~4, using the core library only, a small set of elementary facts about the Fermat quintic polynomial $F_5=\sum_{i=0}^5 x_i^5$ evaluated on integers: Euler's identity $5F_5=\sum x_i\,\partial_iF_5$; the exact Euler defect $-5\prod x_i$ of the non-homogeneous perturbation $G=F_5-5\prod x_i$; and the fact that the only integer point at which all six partial derivatives $5x_i^4$ vanish is the origin. We also record, as checked arithmetic and string labels, the bookkeeping constants $126-6=120$ and $1751$ that appear in Hodge-theoretic discussions of this host, and we state explicitly that no cohomology group, Hodge number, or algebraic cycle is constructed. All proofs are free of \texttt{sorry} and use only Lean's standard axioms.
+\end{abstract}
 \maketitle
 
-\begin{abstract}
-Standalone Init-only Lean 4.22 formalization (`Hodge/VF5.lean`) defining the host arithmetic and degree/weight invariants of the smooth Fermat quintic fourfold V(F\_5) subset P\textasciicircum{}5 with zero external Mathlib dependencies.
-\end{abstract}
+\section{Introduction}
+The Fermat quintic fourfold $V(F_5)=\{x_0^5+\dots+x_5^5=0\}\subset\mathbb{P}^5$ is a standard smooth test case for Hodge-theoretic computations. Smoothness of a hypersurface $V(F)$ of degree $d$ in characteristic zero is the statement that the partial derivatives of $F$ have no common zero other than the origin of the affine cone, and Euler's identity $dF=\sum x_i\partial_iF$ shows that such a common zero automatically lies on $V(F)$.
 
-\section{Scope, Scientific Honesty, and Non-Claim Boundary}
-Explicitly certified as a host definition and arithmetic invariant module (`Hodge/VF5.lean`) with Z uncomputed; not a proof or disproof of the Clay Hodge Conjecture.
+This paper records the parts of this picture that are formalized, in the precise form they are formalized: polynomial identities and an implication about integer points. Everything is stated over $\mathbb{Z}$ with the derivatives entered as explicit polynomials. The repository's \lean{HostLabel} record is a documentation label with string fields; it is not a scheme.
 
-\begin{itemize}
-  \item \textbf{Repository:} \texttt{https://github.com/BenFrohman/FermatQuinticHost}
-  \item \textbf{Dedicated 1-to-1 Zenodo DOI:} \texttt{10.5281/zenodo.23652990}
-  \item \textbf{Earliest Git Commit SHA:} \texttt{799c9815446e3e64d7f21701d0efdfdbed697ae5} (2026-10-03 04:45:56 PM CDT (UTC-5))
-  \item \textbf{License \& Copyright:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.
-\end{itemize}
+\section{Definitions}
+For $x_0,\dots,x_5\in\mathbb{Z}$ define
+\[
+F_5=\sum_{i=0}^5 x_i^5,\qquad D_i=5x_i^4\ (i=0,\dots,5),\qquad G=F_5-5\,x_0x_1x_2x_3x_4x_5 .
+\]
+In the formalization, $D_i$ is \emph{defined} to be $5x_i^4$ (Lean names \lean{dF5_dx0}, \dots, \lean{dF5_dx5}); it is the formal partial derivative $\partial F_5/\partial x_i$, but differentiation itself is not formalized.
 
-\section{Technical Overview \& Repository Specification}
-Copyright (c) 2026 Benjamin Stanley Frohman (`@BenFrohman`). Apache-2.0.
+\section{Results}
+\begin{theorem}[Euler identity; \lean{Hodge.VF5.euler_F5}]\label{thm:euler}
+For all $x\in\mathbb{Z}^6$, $5F_5(x)=\sum_{i=0}^5 x_iD_i(x)$.
+\end{theorem}
 
-The real host is the Fermat quintic fourfold
+\begin{theorem}[Euler defect of $G$; \lean{Hodge.VF5.G_euler_defect}]\label{thm:defect}
+For all $x\in\mathbb{Z}^6$,
+\[
+\sum_{i=0}^5 x_i\Bigl(5x_i^4-5\prod_{j\neq i}x_j\Bigr)-5G(x)=-5\prod_{j=0}^5x_j .
+\]
+\end{theorem}
+The bracketed factors are the formal partials of $G$. Since $G$ is not homogeneous (its monomial $\prod x_j$ has degree~6), Euler's identity fails for it, and Theorem~\ref{thm:defect} computes the defect exactly.
 
-```text
+\begin{lemma}\label{lem:prod}
+\begin{enumerate}
+\item (\lean{Hodge.VF5.partial_as_prod}) $5x^4=5\cdot x\cdot x\cdot x\cdot x$ for all $x\in\mathbb{Z}$.
+\item (\lean{Hodge.VF5.int_five_mul_prod4_eq_zero}) If $x\in\mathbb{Z}$ and $5\cdot x\cdot x\cdot x\cdot x=0$, then $x=0$.
+\end{enumerate}
+\end{lemma}
 
-F5 = x0\textasciicircum{}5 + x1\textasciicircum{}5 + x2\textasciicircum{}5 + x3\textasciicircum{}5 + x4\textasciicircum{}5 + x5\textasciicircum{}5
+\begin{theorem}[Isolated critical point of the affine cone; \lean{Hodge.VF5.affine_cone_isolated_at_origin}]\label{thm:iso}
+Let $x\in\mathbb{Z}^6$. If $D_i(x)=0$ for all $i=0,\dots,5$, then $x_0=x_1=\dots=x_5=0$.
+\end{theorem}
+\begin{proof}
+For each $i$, rewrite $D_i(x)=0$ as $5x_ix_ix_ix_i=0$ by Lemma~\ref{lem:prod}(1); since $\mathbb{Z}$ has no zero divisors, Lemma~\ref{lem:prod}(2) gives $x_i=0$.
+\end{proof}
 
-V(F5) subset P\textasciicircum{}5
+\begin{remark}
+Theorem~\ref{thm:iso} is stated for integer points only. The analogous statement over $\mathbb{C}$ (which is what smoothness of $V(F_5)$ requires) follows by the same argument in any integral domain of characteristic $\neq5$, but that generalization is \emph{not} part of the formalization.
+\end{remark}
 
-```
+\subsection*{Recorded constants and labels}
+The following are checked by the kernel but are arithmetic or definitional facts, not geometric computations.
+\begin{proposition}\label{prop:const}
+\begin{enumerate}
+\item (\lean{Hodge.VF5.h31_dim}) $126-6=120$ in $\mathbb{N}$.
+\item (\lean{Hodge.VF5.sextic_h22_prim_container}) $1751=1751$ in $\mathbb{N}$.
+\item (\lean{Hodge.VF5.sextic_Z_status_uncomputed}) The status string \lean{sextic_Z_status} equals \texttt{"uncomputed"}.
+\item (\lean{Hodge.VF5.host_is_VF5}, \lean{Hodge.VF5.host_dim}) The documentation label has name \texttt{"V(F5)"} and dimension field $4$.
+\end{enumerate}
+\end{proposition}
+Item~(1) is the subtraction one would use if $126$ and $6$ were the relevant dimensions in a Hodge-number calculation; item~(2) is a reflexivity statement recording a number. Neither the identification of these numbers with Hodge numbers, nor any cycle class, is proved here. Item~(3) records that a sextic quantity is explicitly marked as not computed.
 
-Certificate: [`Hodge/VF5.lean`](Hodge/VF5.lean) and [`CERTIFICATE.md`](CERTIFICATE.md).
+\section{Scope}
+Not formalized: schemes, projective space, smoothness as a geometric property, cohomology, Hodge numbers, primitive classes, algebraic cycles, and the Hodge conjecture. The paper claims exactly the integer identities and implications of Theorems~\ref{thm:euler}--\ref{thm:iso}, Lemma~\ref{lem:prod} and Proposition~\ref{prop:const}.
 
-`Hodge/NewHost.lean` is a placeholder filename, not the host name.
-
-`hostLabel` is a string. `T\_F` is not used. `Z` on the sextic is uncomputed.
-
-Primitive `H\textasciicircum{}\{3,1\}` container dimension is 120, not 0.
-
-Toolchain: Lean `v4.22.0`, Init only.
-
-\section{Cryptographic Provenance \& File Inventory}
-Every source artifact in \texttt{BenFrohman/FermatQuinticHost} is audited via \texttt{titan-audit}
-(\texttt{audit/TITAN\_AUDIT\_CERTIFICATE.json}) and sealed under a deterministic SHA-256 Merkle tree via
-\texttt{sealguard} (\texttt{PROVENANCE\_MERKLE\_ROOT.json}) signed with Ed25519 key fingerprint
-\texttt{b428fb72676f1c52}.
-
+\section{Correspondence between claims and Lean declarations}
+All declarations are in namespace \lean{Hodge.VF5}, file \lean{Hodge/VF5.lean}, Lean~4 core only.
 \begin{center}
-\small
-\begin{tabular}{p{0.52\textwidth}rr}
+\begin{tabular}{@{}ll@{}}
 \toprule
-\textbf{Repository Path} & \textbf{Size} & \textbf{SHA-256 Prefix} \\
+Claim & Lean declaration\\
 \midrule
-\texttt{CERTIFICATE.md} & 873 B & \texttt{6d0078b674735413...} \\
-\texttt{Hodge/VF5.lean} & 4476 B & \texttt{e69d4e4a737ddb28...} \\
-\texttt{LICENSE} & 11355 B & \texttt{9da72c2bee4f20ba...} \\
-\texttt{NOTICE} & 329 B & \texttt{b4790083f7f73b66...} \\
-\texttt{README.md} & 531 B & \texttt{e2706b1cc1d2a2fa...} \\
-\texttt{lean-toolchain} & 25 B & \texttt{8f6680f8389e8ade...} \\
+Theorem~\ref{thm:euler} & \lean{euler_F5}\\
+Theorem~\ref{thm:defect} & \lean{G_euler_defect}\\
+Lemma~\ref{lem:prod}(1) & \lean{partial_as_prod}\\
+Lemma~\ref{lem:prod}(2) & \lean{int_five_mul_prod4_eq_zero}\\
+Theorem~\ref{thm:iso} & \lean{affine_cone_isolated_at_origin}\\
+Proposition~\ref{prop:const}(1) & \lean{h31_dim}\\
+Proposition~\ref{prop:const}(2) & \lean{sextic_h22_prim_container}\\
+Proposition~\ref{prop:const}(3) & \lean{sextic_Z_status_uncomputed}\\
+Proposition~\ref{prop:const}(4) & \lean{host_is_VF5}, \lean{host_dim}\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\vfill
-\noindent\rule{\textwidth}{0.4pt}\\
-\footnotesize
-\textbf{Attribution \& Licensing Notice:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman (ORCID: \texttt{0009-0006-7068-3718}).
-Licensed under the Apache License, Version 2.0.
+\appendix
+\section{Verification certificate}\label{app:verification-certificate}
+
+The formal development was machine-checked as follows.
+
+{\raggedright
+\begin{itemize}
+\item Repository:\\ {\footnotesize\url{https://github.com/BenFrohman/FermatQuinticHost}}
+\item Verified commit:\\ {\footnotesize\texttt{0b56d4b210d9418931af559cc06fdda2ee5b9bd1}}
+\item Lean toolchain: \texttt{leanprover/lean4:v4.22.0}
+\item Mathlib: none (the development depends only on Lean core)
+\item Continuous integration run (build, axiom audit, \texttt{sorry}/\texttt{axiom} scan; passed):\\ {\footnotesize\url{https://github.com/BenFrohman/FermatQuinticHost/actions/runs/41794839040}}
+\item SHA-256 of the GitHub source tarball of the verified commit, downloaded twice with identical result:\\ {\footnotesize\url{https://github.com/BenFrohman/FermatQuinticHost/archive/0b56d4b210d9418931af559cc06fdda2ee5b9bd1.tar.gz}}\\
+{\footnotesize\texttt{726065496f5fb2841642e615f7e7c0eb0fd7b3e6927d4bba7dfe4e2dd7d3568a}}
+\end{itemize}\par}
+
+The tarball hash refers to the verified commit rather than to a release tag, since a document cannot contain the hash of an archive that includes itself. The Lean sources are unchanged between that commit and the release tag.
+
+\textbf{The development contains no \texttt{sorry} and no user-declared axioms.} Every one of the 10 theorems and lemmas listed below depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (or on none). The table is the verbatim output of \texttt{lake env lean AxiomAudit.lean} (\texttt{\#print axioms}) on the verified commit.
+
+{\footnotesize
+\begin{longtable}{p{0.55\linewidth}p{0.38\linewidth}}
+\hline
+Lean declaration & \texttt{\#print axioms} \\
+\hline\endhead
+\path{Hodge.VF5.G_euler_defect} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Hodge.VF5.affine_cone_isolated_at_origin} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Hodge.VF5.euler_F5} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Hodge.VF5.h31_dim} & \texttt{(no axioms)} \\
+\path{Hodge.VF5.host_dim} & \texttt{(no axioms)} \\
+\path{Hodge.VF5.host_is_VF5} & \texttt{(no axioms)} \\
+\path{Hodge.VF5.int_five_mul_prod4_eq_zero} & \texttt{[propext]} \\
+\path{Hodge.VF5.partial_as_prod} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Hodge.VF5.sextic_Z_status_uncomputed} & \texttt{(no axioms)} \\
+\path{Hodge.VF5.sextic_h22_prim_container} & \texttt{(no axioms)} \\
+\hline
+\end{longtable}}
+
+\begin{thebibliography}{9}
+\bibitem{shioda} T.~Shioda, \emph{The Hodge conjecture for Fermat varieties}, Math.\ Ann.\ \textbf{245} (1979), 175--184.
+\bibitem{lean} L.~de~Moura and S.~Ullrich, \emph{The Lean~4 theorem prover and programming language}, CADE-28, LNCS 12699 (2021), 625--635.
+\end{thebibliography}
 \end{document}
