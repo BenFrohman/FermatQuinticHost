@@ -33,3 +33,8 @@ Toolchain: Lean `v4.22.0`, Init only.
 - **SealGuard SHA-256 Merkle Root:** `82742eda09c97d563550c5b39a04d977180ed06f4db48975f2b045d57974bb52` (`PROVENANCE_MERKLE_ROOT.json`)
 - **Titan Audit Certificate:** `audit/TITAN_AUDIT_CERTIFICATE.json` (Ed25519 key `b428fb72676f1c52`)
 - **Scope & Scientific Boundary:** Explicitly certified as a host definition and arithmetic invariant module (`Hodge/VF5.lean`) with Z uncomputed; not a proof or disproof of the Clay Hodge Conjecture.
+
+## Zenodo archive
+
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23652989.svg)](https://doi.org/10.5281/zenodo.23652989) FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F_5) in P^5 — all versions: [10.5281/zenodo.23652989](https://doi.org/10.5281/zenodo.23652989); latest version: [10.5281/zenodo.23652990](https://doi.org/10.5281/zenodo.23652990)
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23867531.svg)](https://doi.org/10.5281/zenodo.23867531) FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F_5) in P^5 — all versions: [10.5281/zenodo.23867531](https://doi.org/10.5281/zenodo.23867531); latest version: [10.5281/zenodo.23867532](https://doi.org/10.5281/zenodo.23867532)
