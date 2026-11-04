@@ -1,0 +1,6 @@
+name = "FermatQuinticHost"
+defaultTargets = ["Hodge"]
+
+[[lean_lib]]
+name = "Hodge"
+roots = ["Hodge.VF5"]

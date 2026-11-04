@@ -1,5 +1,7 @@
 # V(F5)
 
+[![Lean certificate](https://github.com/BenFrohman/FermatQuinticHost/actions/workflows/certify.yml/badge.svg)](https://github.com/BenFrohman/FermatQuinticHost/actions/workflows/certify.yml)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23652990.svg)](https://doi.org/10.5281/zenodo.23652990) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Copyright (c) 2026 Benjamin Stanley Frohman (`@BenFrohman`). Apache-2.0.
