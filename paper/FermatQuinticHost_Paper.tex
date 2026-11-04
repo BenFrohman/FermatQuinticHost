@@ -1,0 +1,276 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xurl}\usepackage{amsmath,amssymb,amsthm,booktabs,longtable,hyperref}
+\newtheorem{theorem}{Theorem}[section]\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\PP}{\mathbb{P}}\newcommand{\CC}{\mathbb{C}}\newcommand{\QQ}{\mathbb{Q}}
+\title{Lean 4 Certificates for the Fermat Quintic Fourfold in $\PP^5$:\\ Smoothness, Jacobian-Ring Hodge Numbers $(0,120,580,120)$,\\ and the Dwork Members $\psi=1$ (singular) and $\psi=2$ (smooth)}
+\author{Benjamin Stanley Frohman\\ \small ORCID 0009-0006-7068-3718}
+\date{November 2026 (version 1.2.0 of the FermatQuinticHost record)}
+\sloppy\begin{document}\maketitle
+\begin{abstract}
+We study the Fermat quintic fourfold $X=V(x_0^5+\dots+x_5^5)\subset\PP^5$ and the Dwork-type pencil
+$X_\psi=V(\sum x_i^5-5\psi\,x_0x_1x_2x_3x_4)$ through it. In Lean~4 with Mathlib we prove: $X$ is smooth in
+characteristic $0$; the Jacobian ring has Hilbert series $(1+t+t^2+t^3)^6$ (length 19, total 4096) with
+entries $120,580,120$ in the Griffiths degrees $4,9,14$ and $h^{4,0}=0$; the member $\psi=1$ is singular at
+$[1:1:1:1:1:0]$; and the member $\psi=2$ is smooth. With Griffiths' residue theorem (cited) this gives the
+primitive middle Hodge numbers $(0,120,580,120,0)$ for $X$ and for $X_2$, checked independently against the
+Euler characteristic 825. Outside Lean, exact Gr\"obner computations show $X_2$ contains no plane, and character
+bookkeeping gives at least 240 primitive rational Hodge classes on $X_2$; whether they are algebraic is an open
+instance of the variational Hodge conjecture. Every Lean declaration depends only on the standard axioms.
+\end{abstract}
+\tableofcontents
+\section{Introduction}
+The Fermat quintic fourfold is the simplest smooth quintic in $\PP^5$ and a natural test host for formal
+methods in Hodge theory: its Jacobian ring is a tensor product of truncated polynomial rings, so every Hodge
+number is a finite count. This paper records what has been machine-checked about it, what is cited, and what
+remains open. Previous versions of this record (1.0.0, October 2026) contained a two-page certificate note for
+an Init-only file \texttt{Hodge/VF5.lean}; version 1.1.0 contained only a short update note. This version is
+the full paper, and supersedes both.
+
+\paragraph{Contributions.}
+(i) A Mathlib proof of smoothness of $X$ over any field of characteristic $0$ (Section~\ref{sec:setup}).
+(ii) A decidable computation of the Jacobian-ring Hilbert series and the Griffiths entries (Sections~\ref{sec:jac}--\ref{sec:hodge}).
+(iii) A Lean proof that $X_1$ is singular and $X_2$ is smooth, with an honest account of what is known about cycles on $X_2$ (Section~\ref{sec:dwork}).
+(iv) A complete axiom audit (Section~\ref{sec:lean}).
+\section{Setup and smoothness}\label{sec:setup}
+Let $K$ be a field of characteristic $0$ (for Hodge theory, $K=\CC$) and
+\[ G=\sum_{i=0}^5 x_i^5\in K[x_0,\dots,x_5],\qquad X=V(G)\subset\PP^5_K. \]
+$G$ is homogeneous of degree $5$ (Lean: \texttt{QuinticHost.G\_isHomogeneous}), so $X$ is a hypersurface
+of dimension 4. Euler's identity $5G=\sum_i x_i\,\partial_iG$ (Lean: \texttt{FermatQuintic.euler\_homogeneous})
+shows that a common zero of the partials lies on $X$.
+
+\begin{theorem}[Lean: \texttt{QuinticHost.pderiv\_G}, \texttt{QuinticHost.smooth}]
+$\partial_iG=5x_i^4$, and if $\mathrm{char}\,K=0$ the six partials vanish simultaneously only at $x=0$.
+Consequently $X$ is smooth (Jacobian criterion).
+\end{theorem}
+\begin{proof}
+$5x_i^4=0$ with $5\neq0$ in $K$ gives $x_i^4=0$, hence $x_i=0$ in the field $K$.
+\end{proof}
+The Jacobian criterion itself (a projective hypersurface is smooth iff the partials have no common zero
+off the origin) is standard and is not formalised; Lean proves the polynomial statement.
+
+Basic invariants: $K_X=\mathcal O_X(5-6)=\mathcal O_X(-1)$, so $X$ is Fano of index 1. By Lefschetz,
+$b_0=b_2=b_6=b_8=1$ and $b_1=b_3=b_5=b_7=0$. The topological Euler characteristic of a smooth degree-$d$
+hypersurface in $\PP^5$ is $\chi=\frac{(1-d)^6-1}{d}+6$; for $d=5$ this is $\frac{4096-1}{5}+6=825$,
+so $b_4=825-4=821$ and the primitive part has dimension $820$.
+
+\section{The Jacobian ring and its Hilbert series}\label{sec:jac}
+The Jacobian ideal is $J=(\partial_0G,\dots,\partial_5G)=(x_0^4,\dots,x_5^4)$ and the Jacobian ring is
+\[ R=\CC[x_0,\dots,x_5]/J \;=\;\bigotimes_{i=0}^5 \CC[x_i]/(x_i^4). \]
+Since $x_0^4,\dots,x_5^4$ is a regular sequence, $R$ is a graded Artinian complete intersection with monomial
+basis $\{x^a: 0\le a_i\le3\}$, so
+\[ H_R(t)=\Big(\frac{1-t^4}{1-t}\Big)^6=(1+t+t^2+t^3)^6,\qquad \dim R=4^6=4096, \]
+with socle in degree $6\cdot 3=18$ and the symmetry $\dim R_k=\dim R_{18-k}$ (Macaulay duality).
+For an arbitrary smooth quintic in six variables the partials still form a regular sequence of six forms
+of degree 4, so the same Hilbert series holds (cited, not formalised).
+\begin{table}[h]\centering\small
+\begin{tabular}{l*{10}{c}}\toprule
+$k$ & 0&1&2&3&4&5&6&7&8&9\\
+$\dim R_k$ & 1&6&21&56&\textbf{120}&216&336&456&546&\textbf{580}\\\midrule
+$k$ & 10&11&12&13&14&15&16&17&18&\\
+$\dim R_k$ & 546&456&336&216&\textbf{120}&56&21&6&1&\\\bottomrule
+\end{tabular}
+\caption{Coefficients of $(1+t+t^2+t^3)^6$. Sum $=4096$. Bold: the Griffiths degrees.}\label{tab:series}
+\end{table}
+For example $R_4$ is spanned by degree-4 monomials in six variables with all exponents $\le 3$:
+$\binom{9}{5}-6=126-6=120$ (only the six $x_i^4$ are excluded).
+\section{Griffiths residues and the Hodge numbers}\label{sec:hodge}
+\begin{theorem}[Griffiths~\cite{Griffiths69}, cited]
+For a smooth hypersurface $X=V(G)\subset\PP^{n+1}$ of degree $d$, $n=\dim X$,
+\[ H^{n-q,q}_{\mathrm{prim}}(X)\;\cong\;R_{d(q+1)-(n+2)}. \]
+\end{theorem}
+Here $n=4$, $d=5$, so $h^{4-q,q}_{\mathrm{prim}}=\dim R_{5q-1}$:
+\begin{center}\begin{tabular}{cccc}\toprule
+$q$ & degree $5(q+1)-6$ & $h^{4-q,q}_{\mathrm{prim}}$ & Lean\\\midrule
+0 & $-1$ & 0 & \texttt{quintic\_h40\_zero}\\
+1 & 4 & 120 & \texttt{quintic\_primitive\_hodge}\\
+2 & 9 & 580 & \texttt{quintic\_primitive\_hodge}\\
+3 & 14 & 120 & \texttt{quintic\_primitive\_hodge}\\
+4 & 19 & 0 & (beyond socle degree 18)\\\bottomrule
+\end{tabular}\end{center}
+The total $0+120+580+120+0=820$ agrees with the Euler-characteristic computation of
+Section~\ref{sec:setup}, an independent check. Adding $h^2$ gives the middle row of the Hodge diamond
+\[ (h^{4,0},h^{3,1},h^{2,2},h^{1,3},h^{0,4})=(0,120,581,120,0),\qquad b_4=821. \]
+\begin{remark}[What is and is not formalised]
+Lean verifies the \emph{counting}: the coefficient list of $(1+t+t^2+t^3)^6$ and its entries at the
+Griffiths degrees. The identification of $\dim R_k$ with a Hodge number is Griffiths' theorem, which is
+cited. In particular $h^{3,1}=120\neq0$; only $h^{4,0}$ (and $h^{0,4}$) vanish.
+\end{remark}
+\section{The Dwork-type pencil}\label{sec:dwork}
+Consider the pencil
+\[ G_\psi=\sum_{i=0}^5 x_i^5-5\psi\,x_0x_1x_2x_3x_4,\qquad X_\psi=V(G_\psi)\subset\PP^5 .\]
+The product omits $x_5$, so every member is homogeneous of degree 5 (an earlier proposal using
+$x_0\cdots x_5$ is \emph{not} homogeneous and does not define a hypersurface in $\PP^5$; this is also
+recorded in Lean as \texttt{FermatQuintic.G\_not\_euler\_degree5}). $X_0$ is the Fermat quintic.
+
+\subsection{$\psi=1$ is singular}
+\begin{proposition}[Lean: \texttt{DeformedQuinticHost.singular\_at\_p}, \texttt{not\_smooth}]
+The point $p=[1:1:1:1:1:0]$ lies on $X_1$ and all partial derivatives of $G_1$ vanish at $p$.
+Hence $X_1$ is singular.
+\end{proposition}
+\begin{proof}
+$G_1(p)=5-5=0$; $\partial_iG_1=5x_i^4-5\prod_{j\le4,j\neq i}x_j$ for $i\le4$ equals $5-5=0$ at $p$; and $\partial_5G_1=5x_5^4=0$.
+\end{proof}
+More generally $X_\psi$ is singular when $\psi^5=1$ (the points $[\zeta^{a_0}:\dots:\zeta^{a_4}:0]$);
+only $\psi=1$ is formalised. The Griffiths machinery of Section~\ref{sec:hodge} does not apply to $X_1$.
+
+\subsection{$\psi=2$ is smooth}
+\begin{theorem}[Lean: \texttt{DworkQuinticPsi2.smooth}]\label{thm:psi2}
+Over a field $K$ of characteristic $0$, the partials of $G_2=\sum x_i^5-10\,x_0\cdots x_4$ vanish
+simultaneously only at $0$. Hence $X_2$ is a smooth quintic fourfold.
+\end{theorem}
+\begin{proof}
+The partials are $5x_5^4$ and $5x_i^4-10\prod_{j\le 4,j\ne i}x_j$ ($i\le4$). So $x_5=0$ and
+$x_i^4=2\prod_{j\ne i}x_j$. Put $P=x_0x_1x_2x_3x_4$. Multiplying the five relations,
+$P^4=\prod x_i^4=2^5\prod_i\prod_{j\ne i}x_j=32P^4$, so $31P^4=0$ and $P=0$. Then
+$x_i^5=x_i\cdot 2\prod_{j\ne i}x_j=2P=0$ for each $i\le4$. This is exactly the Lean proof
+(it uses \texttt{linear\_combination} for each step).
+\end{proof}
+By Theorem~\ref{thm:psi2}, Section~\ref{sec:hodge} applies verbatim to $X_2$: primitive Hodge numbers
+$0,120,580,120,0$ (Lean arithmetic: \texttt{dwork\_primitive\_hodge}). Independently, Singular computed
+the Hilbert function of $\QQ[x]/J(G_2)$ as $1,6,21,56,120,216,336,456,546,580,546,\dots,1$ (total
+4096), matching Table~\ref{tab:series} (script \texttt{scripts/dwork\_quintic\_psi2/hilb.sing}).
+
+\subsection{Computations outside Lean for $\psi=2$}
+\begin{itemize}
+\item \textbf{No planes.} A plane in $\PP^5$ is the row space of a $3\times6$ matrix in reduced form.
+$S_5$ (permuting $x_0,\dots,x_4$) preserves $G_2$, so the 20 Grassmannian charts reduce to two orbit
+representatives (pivots $\{0,1,2\}$ and $\{0,1,5\}$). Restricting $G_2$ gives 21 equations in 9
+unknowns; a Gr\"obner basis over $\QQ$ is $\{1\}$, so $X_2$ contains no plane over $\CC$. The same code
+finds the planes of the Fermat quintic (sanity check). (Script \texttt{planes.sing}; exact, not Lean.)
+\item \textbf{Hodge classes.} Let $H=\{a\in(\mathbb Z/5)^6: a_0+\dots+a_4\equiv0\}/\text{diagonal}$ (order 625)
+act by $x_i\mapsto\zeta^{a_i}x_i$; it preserves every $G_\psi$. Deforming to $\psi=0$, the 820 Fermat
+characters group into 500 $H$-eigenspaces (240 of rank 1, 200 of rank 2, 60 of rank 3). The 240 rank-1
+eigenspaces are, with all Galois conjugates, of type $(2,2)$, so they give \emph{at least 240 primitive
+rational Hodge classes on $X_\psi$ for every smooth $\psi$}, including $\psi=2$ (script \texttt{chars.py};
+bookkeeping plus cited theory). The exact rank at $\psi=2$ is not computed.
+\end{itemize}
+
+\subsection{Status of the Hodge conjecture for $X_2$: open}
+For the Fermat quintic the Hodge conjecture is known (Shioda~\cite{Shioda79}, Ran~\cite{Ran80}: prime degree),
+with cycles built from linear subspaces. At $\psi=2$ those planes do not deform ($X_2$ contains none), and
+$G_2$ has 7 monomials in 6 variables, so it is not of Delsarte type. Showing that the 240 classes above stay
+algebraic along the pencil is an instance of the \emph{variational Hodge conjecture}, which is open. We found no
+published result for $\psi=2$. \textbf{No claim of the Hodge conjecture for $X_2$ is made.}
+\section{Lean formalisation}\label{sec:lean}
+\subsection{Where the proofs live}
+All machine-checked statements cited in this paper are in the repository
+\url{https://github.com/BenFrohman/HODGE} (Lean~4 \texttt{v4.22.0}, Mathlib \texttt{v4.22.0}), in three files:
+\begin{itemize}
+\item \texttt{Hodge/QuinticHost.lean} (Fermat quintic, merged in PR~\#26);
+\item \texttt{Hodge/DeformedQuinticHost.lean} (Dwork member $\psi=1$, PR~\#26);
+\item \texttt{Hodge/DworkQuinticPsi2.lean} (Dwork member $\psi=2$, PR~\#28).
+\end{itemize}
+The counting functions \texttt{conv}, \texttt{jacobianSeries} and \texttt{primHodge} are defined in
+\texttt{Hodge/FermatCubicHost.lean} and reused. The polynomial is an honest
+\texttt{MvPolynomial (Fin 6) K} over an arbitrary field \texttt{K}; partial derivatives are Mathlib's
+\texttt{MvPolynomial.pderiv}. None of the files uses \texttt{sorry}, \texttt{native\_decide} or a
+user-declared \texttt{axiom}; the repository CI enforces this with a source scan.
+
+\subsection{Theorem inventory}
+\begin{center}\small
+\begin{longtable}{p{0.42\linewidth}p{0.52\linewidth}}
+\toprule
+Lean declaration & Statement\\\midrule
+\texttt{QuinticHost.G\_isHomogeneous} & $G=\sum_{i=0}^5 x_i^5$ is homogeneous of degree 5.\\
+\texttt{QuinticHost.pderiv\_G} & $\partial G/\partial x_i = 5x_i^4$.\\
+\texttt{QuinticHost.smooth} & If $\mathrm{char}\,K=0$ and all $\partial_iG(x)=0$ then $x=0$.\\
+\texttt{QuinticHost.quintic\_series} & The coefficient list of $(1+t+t^2+t^3)^6$ has length 19 and sum 4096.\\
+\texttt{QuinticHost.quintic\_primitive\_hodge} & $R_4=120$, $R_9=580$, $R_{14}=120$.\\
+\texttt{QuinticHost.quintic\_h40\_zero} & $5\cdot 1<6$ (so the Griffiths degree for $h^{4,0}$ is negative).\\
+\texttt{QuinticHost.quintic\_h31\_ne\_zero} & $R_4\neq 0$.\\
+\texttt{DeformedQuinticHost.G\_isHomogeneous} & $G_1=\sum x_i^5-5x_0x_1x_2x_3x_4$ is homogeneous of degree 5.\\
+\texttt{DeformedQuinticHost.singular\_at\_p} & $G_1(p)=0$ and $\partial_iG_1(p)=0$ for all $i$, $p=(1,1,1,1,1,0)$.\\
+\texttt{DeformedQuinticHost.not\_smooth} & The Jacobian criterion fails for $G_1$.\\
+\texttt{DworkQuinticPsi2.G\_isHomogeneous} & $G_2=\sum x_i^5-10x_0x_1x_2x_3x_4$ is homogeneous of degree 5.\\
+\texttt{DworkQuinticPsi2.eval\_pderiv} & Explicit formulas for the six partials of $G_2$.\\
+\texttt{DworkQuinticPsi2.smooth} & If $\mathrm{char}\,K=0$ and all $\partial_iG_2(x)=0$ then $x=0$.\\
+\texttt{DworkQuinticPsi2.psi\_not\_root} & $2^5\neq 1$.\\
+\texttt{DworkQuinticPsi2.dwork\_primitive\_hodge} & $R_4=120$, $R_9=580$, $R_{14}=120$ for the series $(1+t+t^2+t^3)^6$.\\
+\bottomrule
+\end{longtable}\end{center}
+
+\subsection{Axiom audit}
+The HODGE CI runs \texttt{lake env lean AxiomAudit.lean} (one \texttt{\#print axioms} per declaration)
+and fails unless every declaration depends only on Lean's standard axioms
+\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}, or on none. Output on \texttt{main} (the $\psi=2$ declarations were added to the audit in HODGE PR~\#31):
+\begin{center}\small
+\begin{tabular}{p{0.52\linewidth}p{0.40\linewidth}}\toprule
+Declarations & \texttt{\#print axioms}\\\midrule
+\texttt{QuinticHost.\{G\_isHomogeneous, pderiv\_G, smooth\}} & \texttt{[propext, Classical.choice, Quot.sound]}\\
+\texttt{QuinticHost.\{quintic\_series, quintic\_primitive\_hodge, quintic\_h31\_ne\_zero\}} & \texttt{[propext]}\\
+\texttt{QuinticHost.quintic\_h40\_zero} & none\\
+\texttt{DeformedQuinticHost.*} (3 declarations) & \texttt{[propext, Classical.choice, Quot.sound]}\\
+\texttt{DworkQuinticPsi2.\{G\_isHomogeneous, eval\_pderiv, smooth\}} & \texttt{[propext, Classical.choice, Quot.sound]}\\
+\texttt{DworkQuinticPsi2.\{psi\_not\_root, dwork\_primitive\_hodge\}} & \texttt{[propext]}\\
+\bottomrule\end{tabular}\end{center}
+\texttt{Classical.choice} enters through Mathlib's polynomial and field library, not through any
+step specific to this paper. The counting theorems are closed by \texttt{decide} and use only \texttt{propext}.
+\section{The standalone certificate repository}
+The repository \url{https://github.com/BenFrohman/FermatQuinticHost} contains the original Init-only
+Lean~4.22 file \texttt{Hodge/VF5.lean} (no Mathlib), which works over $\mathbb Z$ with explicit partials
+$\partial_iF_5=5x_i^4$ and proves:
+\begin{itemize}
+\item \texttt{euler\_F5}: Euler's identity $5F_5=\sum x_i\partial_iF_5$ over $\mathbb Z$;
+\item \texttt{affine\_cone\_isolated\_at\_origin}: the partials vanish together only at $0\in\mathbb Z^6$
+(via \texttt{int\_five\_mul\_prod4\_eq\_zero} and \texttt{partial\_as\_prod});
+\item \texttt{G\_euler\_defect}: the non-homogeneous expression $F_5-5x_0\cdots x_5$ fails Euler's identity
+in degree 5, i.e.\ it is not a quintic form;
+\item \texttt{h31\_dim}: the arithmetic $126-6=120$ behind $\dim R_4$;
+\item bookkeeping: \texttt{host\_is\_VF5}, \texttt{host\_dim}, and \texttt{sextic\_Z\_status\_uncomputed}
+(a flag stating that the algebraic part $Z$ on the related sextic is not computed there).
+\end{itemize}
+All 10 audited declarations depend only on the standard axioms (CI: \texttt{AxiomAudit.lean}). Over $\mathbb Z$
+the isolation statement is weaker than smoothness over $\CC$; the Mathlib proof in HODGE
+(\texttt{QuinticHost.smooth}) is the one used in this paper.
+
+\section{What is proved, computed, and cited}
+\begin{center}\small
+\begin{tabular}{p{0.55\linewidth}l}\toprule
+Statement & Status\\\midrule
+$X$ smooth (char.\ 0); $\partial_iG=5x_i^4$ & Lean\\
+Hilbert series $(1+t+t^2+t^3)^6$; entries 120, 580, 120; $h^{4,0}$ degree negative & Lean (\texttt{decide})\\
+$R\cong\bigotimes\CC[x_i]/(x_i^4)$ has that Hilbert series & elementary; series computed in Lean\\
+Same series for every smooth quintic & cited (regular sequence)\\
+$h^{4-q,q}_{\rm prim}=\dim R_{5q-1}$ & cited (Griffiths)\\
+$\chi(X)=825$ & standard formula\\
+$X_1$ singular at $[1:1:1:1:1:0]$ & Lean\\
+$X_2$ smooth & Lean\\
+$X_2$ Jacobian Hilbert function & Singular (exact over $\QQ$)\\
+$X_2$ contains no plane & Singular (Gr\"obner basis $\{1\}$ over $\QQ$)\\
+$\ge240$ primitive rational Hodge classes on $X_2$ & Python bookkeeping + cited theory\\
+Hodge conjecture for $X_0$ & cited (Shioda, Ran)\\
+Hodge conjecture for $X_2$ & \textbf{open}\\\bottomrule
+\end{tabular}\end{center}
+
+\section{Corrections relative to earlier versions}
+\begin{itemize}
+\item The Init-only certificate (1.0.0) is retained but is not a smoothness proof over $\CC$; it is now supplemented by the Mathlib proof.
+\item Version 1.1.0 stated that smoothness of members with $\psi^5\neq1$ was not proven; $\psi=2$ is now proven (HODGE PR~\#28).
+\item The expression $\sum x_i^5-5x_0\cdots x_5$ that appeared in early discussions is not homogeneous and is not used.
+\end{itemize}
+\section{Reproducibility}
+\begin{itemize}
+\item Build: \texttt{git clone https://github.com/BenFrohman/HODGE; cd HODGE; lake exe cache get; lake build}.
+\item Axiom audit: \texttt{lake env lean AxiomAudit.lean}; CI workflow \texttt{Lean certificate}.
+\item Singular scripts for $\psi=2$: \texttt{scripts/dwork\_quintic\_psi2/} (\texttt{hilb.sing}, \texttt{planes.sing},
+\texttt{fermat.sing}, \texttt{chars.py}) with outputs committed next to them.
+\item Standalone certificate repository: \url{https://github.com/BenFrohman/FermatQuinticHost}, which carries its own
+CI with the same axiom check.
+\end{itemize}
+
+\section*{Scope}
+This paper proves smoothness statements and Jacobian-ring counts in Lean and cites Griffiths' theorem for
+the Hodge-theoretic interpretation. It makes no claim about algebraic cycles on the quintic fourfold beyond
+the cited Fermat results, and it does not claim the Hodge conjecture for any non-Fermat member of the pencil.
+
+\begin{thebibliography}{9}
+\bibitem{Griffiths69} P.~A. Griffiths, On the periods of certain rational integrals I, II, \emph{Ann. of Math.} 90 (1969), 460--541.
+\bibitem{Shioda79} T.~Shioda, The Hodge conjecture for Fermat varieties, \emph{Math. Ann.} 245 (1979), 175--184.
+\bibitem{Ran80} Z.~Ran, Cycles on Fermat hypersurfaces, \emph{Compositio Math.} 42 (1980), 121--142.
+\bibitem{Voisin} C.~Voisin, \emph{Hodge Theory and Complex Algebraic Geometry I, II}, Cambridge Univ. Press, 2002--2003.
+\bibitem{Mathlib} The mathlib Community, The Lean mathematical library, \emph{CPP 2020}, 367--381.
+\end{thebibliography}
+\end{document}

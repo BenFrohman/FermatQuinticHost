@@ -1,0 +1,20 @@
+name: Paper
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: FermatQuinticHost_Paper.tex
+          working_directory: paper
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FermatQuinticHost_Paper
+          path: |
+            paper/FermatQuinticHost_Paper.pdf
+            paper/FermatQuinticHost_Paper.tex
