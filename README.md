@@ -38,3 +38,7 @@ Toolchain: Lean `v4.22.0`, Init only.
 
 - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23652989.svg)](https://doi.org/10.5281/zenodo.23652989) FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F_5) in P^5 — all versions: [10.5281/zenodo.23652989](https://doi.org/10.5281/zenodo.23652989); latest version: [10.5281/zenodo.23652990](https://doi.org/10.5281/zenodo.23652990)
 - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23867531.svg)](https://doi.org/10.5281/zenodo.23867531) FermatQuinticHost: Init-Only Lean 4.22 Host Certificate for the Fermat Quintic Fourfold V(F_5) in P^5 — all versions: [10.5281/zenodo.23867531](https://doi.org/10.5281/zenodo.23867531); latest version: [10.5281/zenodo.23867532](https://doi.org/10.5281/zenodo.23867532)
+
+## Citation
+
+Cite this work with [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button). Zenodo DOI: [10.5281/zenodo.23652990](https://doi.org/10.5281/zenodo.23652990).
