@@ -4,6 +4,12 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Benjamin Stanley Frohman
 -/
 
+/-!
+# Hodge.VF5
+
+Machine-checked Lean 4 module.
+-/
+
 set_option linter.unusedVariables false
 
 /-!
