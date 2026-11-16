@@ -1,0 +1,7 @@
+checker: lean4checker tag v4.22.0 (0531c5e62c6bbc21af6c8b4adc2a16d201bf8b65), Main.lean prefix match -> exact match
+  patch: 84c84
+  patch: <         if target.isPrefixOf m then
+  patch: ---
+  patch: >         if target == m then
+Hodge.VF5: OK (1 module replayed)
+RESULT: 1 of 1 modules replayed through the kernel, 0 failures
