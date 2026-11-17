@@ -1,0 +1,16 @@
+# Kernel certificate manifest
+# source commit: f9f7d2dc018bd0a449da13f6cf9860eeb579c33d
+# lean-toolchain: leanprover/lean4:v4.22.0
+# Mathlib: none (no Mathlib dependency)
+# CI run: https://github.com/BenFrohman/FermatQuinticHost/actions/runs/43954444749
+# rebuild: git clone https://github.com/BenFrohman/FermatQuinticHost.git && cd FermatQuinticHost && git checkout f9f7d2dc018bd0a449da13f6cf9860eeb579c33d && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
+# verify: cd certificates && sha256sum -c MANIFEST.sha256
+9d6bb28767c2e22d804a55fd8117d3bf4f9ca5201543a10faa8ec29d0e32ebc6  CERTIFICATE.md
+cc6dac3d15f2db13fdc93a8612ae3c66344c6d4ec5ecf207d316322f903830fa  KernelCertificateAudit.lean.txt
+d85f94ec6b596358c97474054362880a8e687d277b19c2d3df50b626b19fa3dd  axioms.raw.txt
+49d2fdb8ad827bce79040d54262531e25fc63cf558e6acbd48c77446f545d30d  axioms.txt
+27e5fc342f2a877a41f08c77a24586ac79f5bc4607eef591867f714d4e46c67e  build.log
+862ef0f1f06c2fa44c14f985aa33d82d78950c0212a136c6da88b104b78aa960  environment.txt
+c9b614b79f47ce22ccb935cb590fb2dc992916247f2cef6bf693a6a30897f4bf  leanchecker.txt
+e0944baabf80e09bf74676df38eb68dbc8a6d95a727edd87452a37b2cb0d84bb  modules.txt
+6449b8d6057c95fbe2771924993805383a0a6c2aa6145c8ea2143551864bd491  sorry-scan.txt

@@ -5,13 +5,13 @@ This file records a reproducible machine check of the Lean 4 development in this
 | Item | Value |
 |---|---|
 | Repository | https://github.com/BenFrohman/FermatQuinticHost |
-| Certified commit | `c885bcea8edf0cef9c985e11d38d3736087accdc` (branch `chore/kernel-certificate`) |
-| Lean sources | identical to `main` at `8e56f604b5f909d4b9a5e58d38f2ad088887d765`: no `.lean`, lakefile, manifest or toolchain file differs; the certified commit only adds CI and the scripts in `certificates/tools/` |
+| Certified commit | `f9f7d2dc018bd0a449da13f6cf9860eeb579c33d` (branch `main`) |
+| Lean sources | the certified commit is the `main` head itself; the certificate files were committed afterwards in a commit that changes no `.lean`, lakefile, manifest or toolchain file |
 | lean-toolchain | `leanprover/lean4:v4.22.0` |
 | Lean | Lean (version 4.22.0, x86_64-unknown-linux-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release) |
 | Mathlib | none (no Mathlib dependency) |
-| Date (UTC) | 2026-11-16T19:22:55Z |
-| CI run | https://github.com/BenFrohman/FermatQuinticHost/actions/runs/43938003511 |
+| Date (UTC) | 2026-11-16T20:53:52Z |
+| CI run | https://github.com/BenFrohman/FermatQuinticHost/actions/runs/43954444749 |
 | `lake build` | `Build completed successfully.` ([build.log](build.log)) |
 | sorry / admit / native_decide / axiom scan | `RESULT: 0 hits` ([sorry-scan.txt](sorry-scan.txt)) |
 | `#print axioms` | `AUDIT PASS: 19 theorems in 1 modules depend only on propext, Classical.choice, Quot.sound (or on no axioms)` ([axioms.txt](axioms.txt)) |
@@ -55,5 +55,5 @@ Full `#print axioms` output (verbatim from `axioms.txt`):
 ## Rebuild
 
 ```
-git clone https://github.com/BenFrohman/FermatQuinticHost.git && cd FermatQuinticHost && git checkout c885bcea8edf0cef9c985e11d38d3736087accdc && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
+git clone https://github.com/BenFrohman/FermatQuinticHost.git && cd FermatQuinticHost && git checkout f9f7d2dc018bd0a449da13f6cf9860eeb579c33d && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
 ```
