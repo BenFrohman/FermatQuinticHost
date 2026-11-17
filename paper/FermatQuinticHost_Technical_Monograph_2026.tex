@@ -1,3 +1,5 @@
+% Copyright (c) 2026 Benjamin Stanley Frohman
+% Licensed under the Apache License 2.0
 \documentclass[11pt]{amsart}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
@@ -24,6 +26,8 @@
 We formalize in Lean~4, using the core library only, a small set of elementary facts about the Fermat quintic polynomial $F_5=\sum_{i=0}^5 x_i^5$ evaluated on integers: Euler's identity $5F_5=\sum x_i\,\partial_iF_5$; the exact Euler defect $-5\prod x_i$ of the non-homogeneous perturbation $G=F_5-5\prod x_i$; and the fact that the only integer point at which all six partial derivatives $5x_i^4$ vanish is the origin. We also record, as checked arithmetic and string labels, the bookkeeping constants $126-6=120$ and $1751$ that appear in Hodge-theoretic discussions of this host, and we state explicitly that no cohomology group, Hodge number, or algebraic cycle is constructed. All proofs are free of \texttt{sorry} and use only Lean's standard axioms.
 \end{abstract}
 \maketitle
+\noindent{\small Copyright (c) 2026 Benjamin Stanley Frohman. Licensed under the Apache License 2.0.}\par
+
 
 \section{Introduction}
 The Fermat quintic fourfold $V(F_5)=\{x_0^5+\dots+x_5^5=0\}\subset\mathbb{P}^5$ is a standard smooth test case for Hodge-theoretic computations. Smoothness of a hypersurface $V(F)$ of degree $d$ in characteristic zero is the statement that the partial derivatives of $F$ have no common zero other than the origin of the affine cone, and Euler's identity $dF=\sum x_i\partial_iF$ shows that such a common zero automatically lies on $V(F)$.
