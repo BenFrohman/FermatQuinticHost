@@ -46,3 +46,7 @@ Toolchain: Lean `v4.22.0`, Init only.
 ## Citation
 
 Cite this work with [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button). Zenodo DOI: [10.5281/zenodo.23652990](https://doi.org/10.5281/zenodo.23652990).
+
+## License and attribution
+
+This work is licensed under the Apache License 2.0 (see [LICENSE](LICENSE) and [NOTICE](NOTICE)). Any use, reproduction, or redistribution, in whole or in part, must retain the NOTICE file and credit Benjamin Stanley Frohman as the author. If you use this work in a publication, please cite it (see [CITATION.cff](CITATION.cff) / the Zenodo DOI).
